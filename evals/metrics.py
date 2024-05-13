@@ -7,6 +7,7 @@ from typing import Optional, Sequence, Set
 import numpy as np
 
 from evals.record import Event
+from sklearn.metrics import f1_score
 
 
 def get_accuracy(events: Sequence[Event]) -> float:
@@ -16,6 +17,12 @@ def get_accuracy(events: Sequence[Event]) -> float:
         return float("nan")
     else:
         return num_correct / num_total
+
+
+def get_f1(events: Sequence[Event]) -> float:
+    y_true = [str(event.data["expected"]) for event in events]
+    y_pred = [str(event.data["sampled"]) for event in events]
+    return f1_score(y_true, y_pred, average='weighted')
 
 
 def get_bootstrap_accuracy_std(events: Sequence[Event], num_samples: int = 1000) -> float:

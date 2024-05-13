@@ -26,25 +26,15 @@ def get_dataset(url: str) -> list[Sample]:
     query = {k: v[0] for k, v in query.items()}
 
     dataset = load_dataset("masakhane/afriqa", **query)
-    try:
-        data = [
-            Sample(
-                question=sample["translated_question"],
-                answers=ast.literal_eval(sample["translated_answer"])
-            )
-            for sample in dataset
-        ]
-        return data
-    except SyntaxError as e:
-        data = [
-            Sample(
-                question=sample["translated_question"],
-                answers=ast.literal_eval(sample["translated_answer"].replace("''", "'").replace("recently,", "recently,"))
-            )
-            for sample in dataset
-        ]
-        return data
-
+    data = []
+    for sample in dataset:
+        try:
+            corrected_answer = sample["translated_answer"].replace("''", "'").replace("'s", "\'s")
+            answers = ast.literal_eval(corrected_answer)
+            data.append(Sample(question=sample["translated_question"], answers=answers))
+        except SyntaxError as e:
+            print(f"Failed to parse answer: {sample['translated_answer']} with error: {e}")
+    return data
 
 
 class AFRIQA(evals.Eval):
@@ -64,8 +54,9 @@ class AFRIQA(evals.Eval):
     def eval_sample(self, sample: Sample, rng):
         assert isinstance(sample, Sample)
         correct_answer = sample.answers
-        prompt = sample.question
-        system_prompt = f"You are a helpful assistant able to provide answer in {self.language}"
+        prompt = "Answer the following question. Provide the answer with the least number of words possible, If you don't know the answer just say you don't know, do not repeat the question.\n\n"
+        question = sample.question
+        system_prompt = f"You are a helpful assistant able to provide answer in {self.language}."
         try:
             result = self.completion_fn(
                 prompt=[
@@ -83,24 +74,24 @@ class AFRIQA(evals.Eval):
                         "content": [
                             {
                                 "type": "text",
-                                "text": prompt,
+                                "text": prompt+question,
                             },
                         ]
                     },
                 ],
                 temperature=0.0,
-                max_tokens=4096,
+                max_tokens=1028,
             )
             sampled = result.get_completions()[0]
         except Exception as e:
             logging.info("Sampling failed!")
             logging.info(sample)
-            logging.info(f"Prompt: {prompt}")
+            logging.info(f"Prompt: {question}")
             logging.info(f"Error: {str(e)}")
             sampled = "ERROR: " + str(e)
 
         return evals.record_and_check_match(
-            prompt=prompt,
+            prompt=question,
             sampled=sampled,
             expected=correct_answer,
         )
@@ -111,5 +102,6 @@ class AFRIQA(evals.Eval):
         events = recorder.get_events("match")
         return {
             "accuracy": evals.metrics.get_accuracy(events),
+            "f1": evals.metrics.get_f1(events),
             "boostrap_std": evals.metrics.get_bootstrap_accuracy_std(events),
         }
