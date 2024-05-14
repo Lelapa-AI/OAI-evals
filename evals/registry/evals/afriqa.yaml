@@ -1,0 +1,89 @@
+afriqa-bem:
+  id: afriqa-bem.test.v1
+  metrics: [accuracy]
+afriqa-bem.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=bem&split=test
+    language: bem
+
+afriqa-fon:
+  id: afriqa-fon.test.v1
+  metrics: [accuracy]
+afriqa-fon.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=fon&split=test
+    language: fon
+
+afriqa-hau:
+  id: afriqa-hau.test.v1
+  metrics: [accuracy]
+afriqa-hau.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=hau&split=test
+    language: hau
+
+afriqa-ibo:
+  id: afriqa-ibo.test.v1
+  metrics: [accuracy]
+afriqa-ibo.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=ibo&split=test
+    language: ibo
+
+afriqa-kin:
+  id: afriqa-kin.test.v1
+  metrics: [accuracy]
+afriqa-kin.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=kin&split=test
+    language: kin
+
+afriqa-swa:
+  id: afriqa-swa.test.v1
+  metrics: [accuracy]
+afriqa-swa.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=swa&split=test
+    language: swa
+
+afriqa-twi:
+  id: afriqa-twi.test.v1
+  metrics: [accuracy]
+afriqa-twi.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=twi&split=test
+    language: twi
+
+afriqa-wol:
+  id: afriqa-wol.test.v1
+  metrics: [accuracy]
+afriqa-wol.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=wol&split=test
+    language: wol
+
+afriqa-yor:
+  id: afriqa-yor.test.v1
+  metrics: [accuracy]
+afriqa-yor.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=yor&split=test
+    language: yor
+
+afriqa-zul:
+  id: afriqa-zul.test.v1
+  metrics: [accuracy]
+afriqa-zul.test.v1:
+  class: evals.elsuite.afriqa.eval:AFRIQA
+  args:
+    dataset: hf://masakhane/afriqa?name=zul&split=test
+    language: zul
