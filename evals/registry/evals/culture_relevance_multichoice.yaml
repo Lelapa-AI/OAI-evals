@@ -1,0 +1,17 @@
+culture_relevance_multichoice-eng:
+  id: culture_relevance_multichoice-eng.test.v1
+  metrics: [accuracy]
+culture_relevance_multichoice-eng.test.v1:
+  class: evals.elsuite.culture_relevance_multichoice.eval:CultureRelevanceMultichoice
+  args:
+    datapath: eval_multichoice.tsv
+    language: eng
+
+culture_relevance_multichoice-zul:
+  id: culture_relevance_multichoice-zul.test.v1
+  metrics: [accuracy]
+culture_relevance_multichoice-zul.test.v1:
+  class: evals.elsuite.culture_relevance_multichoice.eval:CultureRelevanceMultichoice
+  args:
+    datapath: eval_multichoice.tsv
+    language: zul
