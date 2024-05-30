@@ -8,7 +8,9 @@ from pydantic import BaseModel
 
 import evals
 import evals.metrics
+from evals.elsuite import utils
 from evals.api import CompletionFn
+from evals.record import RecorderBase
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +83,15 @@ class CultureRelevanceMultichoice(evals.Eval):
                 temperature=1.0,
                 max_tokens=1028,
             )
-            sampled = result.get_completions()[0]
+            sampled = result.get_completions()[0][0]
+            matches = [utils.fuzzy_match(sampled, correct_answer)]
+
+            evals.record.record_match(
+                True in matches,
+                expected=correct_answer,
+                sampled=sampled,
+                picked=sampled,
+            )
         except Exception as e:
             logging.info("Sampling failed!")
             logging.info(sample)
@@ -89,11 +99,11 @@ class CultureRelevanceMultichoice(evals.Eval):
             logging.info(f"Error: {str(e)}")
             sampled = "ERROR: " + str(e)
 
-        return evals.record_and_check_match(
-            prompt=question,
-            sampled=sampled,
-            expected=correct_answer,
-        )
+            return evals.record_and_check_match(
+                prompt=question,
+                sampled=sampled,
+                expected=correct_answer,
+            )
 
     def run(self, recorder):
         samples = get_dataset(self.datapath)

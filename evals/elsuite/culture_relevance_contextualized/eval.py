@@ -1,3 +1,4 @@
+import re
 import logging
 import pandas as pd
 from pydantic import BaseModel
@@ -78,10 +79,15 @@ class CultureRelevanceContextualized(evals.Eval):
             logging.info(f"Error: {str(e)}")
             sampled = "ERROR: " + str(e)
 
+        pattern = r'"([^"]+)"'
+        # extract the masked word from the response
+        match = re.search(pattern, sampled)
+        match = match.group(1).rstrip('.') if match else sampled
+
         return evals.record_and_check_match(
             prompt=question,
-            sampled=sampled,
-            expected=correct_answer,
+            sampled=match.lower(),
+            expected=correct_answer.lower(),
         )
 
     def run(self, recorder):
