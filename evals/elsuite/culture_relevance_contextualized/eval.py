@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class Sample(BaseModel):
     question: str
-    answer: list[str]
+    answer: str
 
     class Config:
         arbitrary_types_allowed = True
@@ -21,7 +21,7 @@ def get_dataset(datapath) -> list[Sample]:
     dataset = pd.read_csv(datapath, sep='\t')
     data = []
     for index, sample in dataset.iterrows():
-        data.append(Sample(question=sample["masked_sentence"], answer=[sample["mask_value"]]))
+        data.append(Sample(question=sample["masked_sentence"], answer=sample["mask_value"]))
     return data
 
 
