@@ -1,0 +1,17 @@
+culture_relevance_open-eng:
+  id: culture_relevance_open-eng.test.v1
+  metrics: [accuracy]
+culture_relevance_open-eng.test.v1:
+  class: evals.elsuite.culture_relevance_open.eval:CultureRelevanceOpen
+  args:
+    datapath: eval_data.tsv
+    language: eng
+
+culture_relevance_open-zul:
+  id: culture_relevance_open-zul.test.v1
+  metrics: [accuracy]
+culture_relevance_open-zul.test.v1:
+  class: evals.elsuite.culture_relevance_open.eval:CultureRelevanceOpen
+  args:
+    datapath: eval_data.tsv
+    language: zul

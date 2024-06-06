@@ -1,0 +1,17 @@
+culture_relevance_contextualized-eng:
+  id: culture_relevance_contextualized-eng.test.v1
+  metrics: [accuracy]
+culture_relevance_contextualized-eng.test.v1:
+  class: evals.elsuite.culture_relevance_contextualized.eval:CultureRelevanceContextualized
+  args:
+    datapath: eval_contextualized.tsv
+    language: eng
+
+culture_relevance_contextualized-zul:
+  id: culture_relevance_contextualized-zul.test.v1
+  metrics: [accuracy]
+culture_relevance_contextualized-zul.test.v1:
+  class: evals.elsuite.culture_relevance_contextualized.eval:CultureRelevanceContextualized
+  args:
+    datapath: eval_contextualized.tsv
+    language: zul
