@@ -57,7 +57,8 @@ class CultureRelevanceMultichoice(evals.Eval):
         formatted_choices = "\n".join([f"{chr(65+i)} {choice}" for i, choice in enumerate(choices)])
         question = f"{sample.question}\n{formatted_choices}"
         prompt = f"Answer the following question about Zulu {sample.theme} as concisely as possible."
-        system_prompt = f"You are a helpful assistant"
+        system_prompt = "You are a great isiZulu speaker"
+
         try:
             result = self.completion_fn(
                 prompt=[

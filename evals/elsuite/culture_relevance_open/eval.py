@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 
 class Sample(BaseModel):
     question: str
-    answers: list[str]
+    answers: str
+    theme: str
 
     class Config:
         arbitrary_types_allowed = True
@@ -21,7 +22,7 @@ def get_dataset(datapath) -> list[Sample]:
     dataset = pd.read_csv(datapath, sep='\t')
     data = []
     for index, sample in dataset.iterrows():
-        data.append(Sample(question=sample["Open question"], answers=[sample["Facts"]]))
+        data.append(Sample(question=sample["Open question"], answers=sample["Facts"], theme=sample["Sub Themes"]))
     return data
 
 
@@ -42,9 +43,9 @@ class CultureRelevanceOpen(evals.Eval):
     def eval_sample(self, sample: Sample, rng):
         assert isinstance(sample, Sample)
         correct_answer = sample.answers
-        prompt = "Answer the following question as concisely as possible."
+        prompt = f"Answer the following question as concisely as possible."
         question = sample.question
-        system_prompt = f"You are a helpful assistant"
+        system_prompt = "You are a helpful assistant"
         try:
             result = self.completion_fn(
                 prompt=[
